@@ -1,36 +1,43 @@
 # Table of contents
 
-- [Introduction](./Introduction/)
-     - [About KOR SDK](./Introduction/kor_sdk.md) 
+## Getting Started
 
-- [Architecture](./Architecture)
-    - [Overview](./Architecture/overview.md)
-    - [Event Listener](./Architecture/Event-Listener/event-listener.md)
-    - [Modules](./Architecture/module)
-        - [Asset](./Architecture/module/asset-module.md)
-        - [NFT](./Architecture/module/nft-module.md)
-        - [IP](./Architecture/module/ip-module.md)
-        - [License](./Architecture/module/license-module.md)
-        - [Royalty](./Architecture/module/royalty-module.md)
-        - [Dispute](./Architecture/module/dispute-module.md)
+- [Introducing KOR Protocol](./Introduction/introducing-kor-protocol.md)
+- [How KOR Protocol Works](./Introduction/how-kor-protocol-works.md)
+- [Developer Onboarding](./Introduction/developer-onboarding.md)
 
-- [Key Bussiness Flows](./Key-Flow/flow.md)
+## Architecture
 
-- [SDK Reference](./Sdk-Reference/)
-    - [Introduction](./Sdk-Reference/introduction.md)
-    - [SDK Installation](./Sdk-Reference/installation.md)
-    - [SDK Initialization](./Sdk-Reference/sdk_initialization.md)
-    - [Client Methods](./Sdk-Reference/Client/client_methods.md)
-        - [Asset](./Sdk-Reference/Client/asset_client.md)
-        - [NFT](./Sdk-Reference/Client/nft_client.md)
-        - [IP](./Sdk-Reference/Client/ip_client.md)
-        - [License](./Sdk-Reference/Client/license_client.md)
-        - [Royalty](./Sdk-Reference/Client/royalty_client.md)
-        - [Dispute](./Sdk-Reference/Client/dispute_client.md)
+- [Overview](./Architecture/overview.md)
+- [Event Listener](./Architecture/Event-Listener/event-listener.md)
+- [Modules](./Architecture/module/README.md)
+    - [NFT Module](./Architecture/module/nft-module.md)
+    - [IP Module](./Architecture/module/ip-module.md)
+    - [License Module](./Architecture/module/license-module.md)
+    - [Royalty Module](./Architecture/module/royalty-module.md)
+    - [Asset Module](./Architecture/module/asset-module.md)
+    - [Dispute Module](./Architecture/module/dispute-module.md)
 
+## SDK Reference
+
+- [Introduction](./Sdk-Reference/introduction.md)
+- [Installation](./Sdk-Reference/installation.md)
+- [Initialization](./Sdk-Reference/sdk_initialization.md)
+- [Client Methods](./Sdk-Reference/client_methods.md)
+    - [NFT Client](./Sdk-Reference/Client/nft_client.md)
+    - [IP Client](./Sdk-Reference/Client/ip_client.md)
+    - [License Client](./Sdk-Reference/Client/license_client.md)
+    - [Royalty Client](./Sdk-Reference/Client/royalty_client.md)
+    - [Asset Client](./Sdk-Reference/Client/asset_client.md)
+    - [Dispute Client](./Sdk-Reference/Client/dispute_client.md)
+
+## Reference
+
+- [Key Business Flows](./Key-Flow/flow.md)
 - [Key Terminologies](./Key-Terminologies/terminology.md)
-
-- [Deployment Process](./Deployment/deployment-achitecture.md)
-
 - [Smart Contract Reference](./Smart-Contract-Reference/SC.md)
+- [Deployment](./Deployment/deployment-achitecture.md)
 
+## Resources
+
+- [About KOR SDK](./Introduction/kor_sdk.md)
