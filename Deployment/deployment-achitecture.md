@@ -1,19 +1,19 @@
-# Deployment Architecture
+# Deployment
 
-Following is the proposed AWS deployment architecture for Development and Production deployment along with costing - 
+Following is the proposed AWS deployment architecture for Development and Production deployment along with costing -
 
 ## Development and QA Architecture
 
-![Dev & QA Architecture](../image/deployment/dev-qa-arch.png)
+![Dev & QA Architecture](../.gitbook/assets/dev-qa-arch.png)
 
 ### Development and QA Pricing
 
-![DEV & QA Pricing](../image/deployment/dev-qa-price.png)
+![DEV & QA Pricing](../.gitbook/assets/dev-qa-price.png)
 
 ## Production Arhitecture
 
-![Production Architecture](../image/deployment/prod-arch.png)
+![Production Architecture](../.gitbook/assets/prod-arch.png)
 
 ## Production Pricing
 
-![Produciton Pricing](../image/deployment/prod-pricing.png)
+![Produciton Pricing](../.gitbook/assets/prod-pricing.png)
