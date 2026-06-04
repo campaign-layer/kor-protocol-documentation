@@ -2,7 +2,7 @@
 
 ## What is KOR Protocol?
 
-KOR Protocol is the onchain infrastructure for the creative asset clearinghouse. It handles two things: **verification** (proving what's real and who owns it) and **settlement** (moving money at the speed the market actually needs).
+KOR Protocol is an onchain clearinghouse for creative assets. The protocol coordinates three functions across the lifecycle of a creative work: **verifying** origin and ownership, **routing** the work to demand-side parties, and **settling** value across the participants.
 
 Built on Base. Stablecoin-native. Designed for a world where AI agents need to license content and can't exactly open a Chase account.
 
@@ -22,23 +22,47 @@ The creative economy runs on rails built for a different era. KOR Protocol is th
 
 ---
 
-## Two Engines
+## Three Engines
 
-The broader KOR system has three engines. The protocol powers two of them:
+The protocol is organized into three engines:
 
-### Verification
+```
+┌───────────────────────────────────┐
+│                                   │
+▼                                   │
+VERIFY ───► ROUTE ───► SETTLE       │
+(what is real) (where it moves) (value clears)
+│                                   ▲
+│                                   │
+└───────── outcome data ────────────┘
+           reputation updates
+```
+
+### Verify
 
 *What is real, who owns it, and is it clear to move?*
 
-Before anything can be distributed, licensed, remixed, or monetized, someone needs to know where it came from. The protocol creates that record at the point of origin. Register a track, a video, a piece of art. It goes onchain with provenance attached. No one has to think about blockchain to use it, but the record is there when it matters.
+The Verify Engine establishes origin, ownership, and clearance state for registered assets. Before anything can be distributed, licensed, remixed, or monetized, someone needs to know where it came from.
 
-This is the first clearing function: making assets legible enough to route downstream.
+Each asset gets a canonical on-chain identifier, an attestation graph for commercial state, and clearance derived from that graph. The token gives the asset a stable identity. The graph carries the data that changes over time—licenses, derivatives, commercial relationships.
 
-### Monetization
+This is the clearing function that makes assets legible enough to route downstream.
+
+### Route
+
+*Where does it move?*
+
+The Route Engine moves verified assets toward demand-side parties through specialized agents. Agents have on-chain identity, declared capabilities, and reputation scores. Routing produces actions: pitches, workflows, deal-flow handoffs.
+
+Route is in development. The current release focuses on Verify and Settle.
+
+### Settle
 
 *Clear value back to source.*
 
-Once something is registered and routed, the protocol handles the money. Payouts. Splits. Commissions. Licensing flows. Transactions that AI agents initiate without a human in the loop.
+The Settle Engine clears value across participants when transactions close. Splits are programmatic, denominated in stablecoin, executed atomically.
+
+Each settlement writes back to the protocol. The asset accumulates a royalty history—every license, brand deal, sync, and micropayment queryable with timestamps and counterparties.
 
 Crypto rails aren't ideological here. They're practical. The AI era creates transactions that are too small, too global, too fast, and too programmable for SWIFT wires and 60-day net invoices. Stablecoins fix that.
 
@@ -52,27 +76,29 @@ Base is Coinbase's L2. We picked it for straightforward reasons:
 - **Cheap**: fractions of a cent per transaction
 - **Secure**: inherits Ethereum's security
 - **Connected**: 100M+ Coinbase users, native USDC
-- **Familiar**: standard EVM tooling
+- **Standards**: x402, ERC-8004, and account abstraction have their deepest deployments here
 
 When an AI agent needs to pay a creator in Jakarta and another in LA, they settle on the same rail. No FX. No correspondent banks. No waiting.
+
+KOR is not a chain. The protocol does not run a sequencer or validator infrastructure. We pick the chain that already has the users, the liquidity, and the standards.
 
 ---
 
 ## Core Primitives
 
-Four building blocks:
+Four building blocks power the Verify and Settle engines today:
 
 **IP Assets**
-Register any creative work onchain. Music, video, images, code. Origin and ownership become verifiable.
+Register any creative work onchain. Music, video, images, code. Origin and ownership become verifiable. Each registration creates an on-chain identifier and seeds an attestation graph with the initial ownership claim.
 
 **Token-Bound Accounts**
-Every IP Asset gets its own wallet (ERC-6551). The IP itself can hold assets, receive payments, execute transactions. Not the creator's wallet. The IP's wallet. This matters for programmable royalties and autonomous licensing.
+Every IP Asset gets its own wallet (ERC-6551). The IP itself can hold assets, receive payments, execute transactions. Not the creator's wallet—the IP's wallet. This matters for programmable royalties and autonomous licensing.
 
 **Licensing**
 Attach terms directly to IP. Who can use it, under what conditions, at what price. Enforced by code, not lawyers chasing invoices.
 
 **Royalty Distribution**
-When IP generates money, it splits automatically. No invoices. No net-60. The rules are set upfront and the contracts execute them.
+When IP generates money, it splits automatically. No invoices. No net-60. The rules are set upfront and the contracts execute them. Splits are declared at registration and updated by attestation as commercial relationships evolve.
 
 ---
 
@@ -92,9 +118,9 @@ When IP generates money, it splits automatically. No invoices. No net-60. The ru
 
 ## Ecosystem
 
-KOR Protocol is the contract layer: registry, settlement, licensing. It's open, and third-party applications can build against it.
+KOR Protocol is the infrastructure layer: registry, attestation graph, settlement contracts, licensing. The protocol is permissionless—anyone can build against it.
 
-The following surfaces run on the protocol today:
+The following surfaces operate on the protocol today, built and operated by the KOR team:
 
 **Korus** — Music remixing and creation. Output registers into the protocol with authorship and provenance attached at creation.
 
@@ -102,11 +128,27 @@ The following surfaces run on the protocol today:
 
 **Pacer** — AI operating system for music. The interface where artists interact with the protocol's routing and distribution capabilities.
 
-**Streamline** — AI operating system for creators more broadly. Extends Pacer's pattern across video, visual art, and multi-format workflows.
+**Streamline** — AI operating system for creators more broadly. Extends the Pacer pattern across video, visual art, and multi-format workflows.
 
-**Hubs** — Community engagement and monetization. The venue where partners, audiences, and creators connect. Settlement for subscriptions, fan tokens, and gated experiences runs through the protocol.
+**Hubs** — Community engagement and monetization. Where partners, audiences, and creators connect. Settlement for subscriptions, fan tokens, and gated experiences runs through the protocol.
 
 The protocol layer is open. You can register assets, integrate licensing, and settle through the same contracts these surfaces use.
+
+---
+
+## What's Next
+
+The current release focuses on the Verify and Settle engines. The Route Engine—with specialized agents, match engine, and curation rails—is in active development.
+
+Standards we're building toward:
+
+| Standard | Function | Status |
+|----------|----------|--------|
+| ERC-721 | Asset identifier | Live |
+| ERC-6551 | Token-bound accounts | Live |
+| ERC-8004 | Agent identity, reputation | Coming |
+| x402 | HTTP-native stablecoin payments | Coming |
+| ERC-7683 | Cross-chain intents | Coming |
 
 ---
 

@@ -1,6 +1,32 @@
 # How KOR Protocol Works
 
-Three layers: **SDK → Backend → Blockchain**. The SDK talks to our backend, the backend signs transactions, your user's wallet submits them. Keeps blockchain complexity out of the way while preserving the security guarantees.
+The protocol implements three engines—Verify, Route, Settle—through a layered architecture: **SDK → Backend → Blockchain**. The SDK talks to our backend, the backend signs transactions, your user's wallet submits them. Keeps blockchain complexity out of the way while preserving security guarantees.
+
+---
+
+## The Loop
+
+Every operation flows through the same cycle:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│   VERIFY ──────────► ROUTE ──────────► SETTLE                       │
+│   (register asset)   (match to demand)  (clear value)               │
+│                                                                     │
+│         ◄──────────── outcome data ────────────►                    │
+│                    reputation updates                               │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Registration.** A creator registers an asset. The registration creates a canonical on-chain identifier, an attestation graph seeded with the initial ownership claim, and a clearance state derived from the graph.
+
+**Routing.** Once an asset is registered and clear-to-move, it can be routed toward partners. *(Route Engine in development)*
+
+**Settlement.** A closed match clears through the Settle layer. Splits are programmatic, denominated in stablecoin, executed atomically across participants.
+
+**Feedback.** Each settlement writes back to the protocol. The asset accumulates royalty history—timestamps, counterparties, deal terms.
 
 ---
 
@@ -30,14 +56,24 @@ Three layers: **SDK → Backend → Blockchain**. The SDK talks to our backend, 
 ┌─────────────────────────────────────────────────────────────────┐
 │                      BASE NETWORK                               │
 │                                                                 │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │ NFT Module  │  │  IP Module  │  │License Module│             │
-│  └─────────────┘  └─────────────┘  └─────────────┘             │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                    VERIFY ENGINE                         │   │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐      │   │
+│  │  │ NFT Module  │  │  IP Module  │  │Asset Module │      │   │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘      │   │
+│  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │Royalty Module│ │ERC-6551     │  │  Dispute    │             │
-│  └─────────────┘  │Registry     │  │  Module     │             │
-│                   └─────────────┘  └─────────────┘             │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                    SETTLE ENGINE                         │   │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐      │   │
+│  │  │License Module│ │Royalty Module│ │Dispute Module│     │   │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘      │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                  TOKEN-BOUND ACCOUNTS                    │   │
+│  │                     (ERC-6551)                           │   │
+│  └─────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,9 +107,9 @@ const txHash = await walletClient.writeContract(request);
 
 ---
 
-## Smart Contract Modules
+## Verify Engine Modules
 
-Six modules, each handling a specific piece:
+The Verify Engine establishes origin, ownership, and clearance state. Three modules:
 
 ### NFT Module
 
@@ -88,7 +124,7 @@ Creates and manages collections.
 
 ### IP Module
 
-The core. Registers NFTs as IP and creates token-bound accounts.
+The core registration layer. Registers NFTs as IP and creates token-bound accounts.
 
 | Function | What it does |
 |----------|--------------|
@@ -96,6 +132,26 @@ The core. Registers NFTs as IP and creates token-bound accounts.
 | `registerIpFromCollection` | Register with collection-level licensing |
 | `registerDerivative` | Register work that derives from parent IP |
 | `getIpAccount` | Get the ERC-6551 account address for an IP |
+
+Each registration creates:
+- A canonical on-chain identifier (ERC-721 token)
+- An off-chain content pointer (IPFS or Arweave hash)
+- Metadata describing format, creation context, and AI-provenance status
+
+### Asset Module
+
+Off-chain metadata and storage.
+
+| Function | What it does |
+|----------|--------------|
+| `uploadAsset` | Upload to decentralized storage |
+| `getAssetMetadata` | Retrieve metadata |
+
+---
+
+## Settle Engine Modules
+
+The Settle Engine clears value across participants. Three modules:
 
 ### License Module
 
@@ -117,6 +173,8 @@ Handles splits and distributions.
 | `distributeRoyalties` | Trigger distribution |
 | `claimRoyalties` | Claim what's owed |
 
+Splits are declared at asset registration and updated as commercial relationships evolve. A track with three producers, one vocalist, a manager on 10%, and a label on 15% has those splits encoded from registration. When revenue arrives, the settlement contract distributes atomically.
+
 ### Dispute Module
 
 For ownership disputes.
@@ -126,22 +184,11 @@ For ownership disputes.
 | `raiseDispute` | Initiate dispute |
 | `resolveDispute` | Resolve with evidence |
 
-### Asset Module
-
-Off-chain metadata and storage.
-
-| Function | What it does |
-|----------|--------------|
-| `uploadAsset` | Upload to decentralized storage |
-| `getAssetMetadata` | Retrieve metadata |
-
 ---
 
 ## Token-Bound Accounts (ERC-6551)
 
-This is the interesting part.
-
-Every IP Asset registered on the protocol gets its own smart contract wallet. Not a wallet controlled by the creator. A wallet controlled by the IP itself.
+Every IP Asset registered on the protocol gets its own smart contract wallet. Not a wallet controlled by the creator—a wallet controlled by the IP itself.
 
 ```
 ┌─────────────────────────────────────────┐
@@ -163,8 +210,6 @@ Every IP Asset registered on the protocol gets its own smart contract wallet. No
 └─────────────────────────────────────────┘
 ```
 
-Why does this matter?
-
 **IP can hold assets.** Revenue flows to the IP, not just the creator's wallet. Makes accounting cleaner when rights structures get complex.
 
 **Programmable ownership.** The wallet executes transactions on behalf of the IP. Royalties split automatically. Licenses execute without manual intervention.
@@ -172,6 +217,19 @@ Why does this matter?
 **Portable identity.** The IP has an onchain identity that persists across platforms. History, reputation, relationships travel with it.
 
 When someone licenses your IP or a derivative generates revenue, payments go to the token-bound account. The NFT owner can withdraw whenever they want.
+
+---
+
+## Clearance State
+
+Clearance state is a derived property of an asset's attestation graph. An asset is "clear-to-move" for a given action when the graph satisfies the conditions required for that action.
+
+Different actions require different conditions:
+- **Transient license** requires only unambiguous ownership
+- **Sample license** requires unambiguous ownership plus consistency with the source's terms
+- **Full transfer** requires the above plus absence of conflicting authorship claims
+
+Downstream contracts check clearance state before acting. A settlement contract won't clear a license payment if the licensor can't be unambiguously identified.
 
 ---
 
@@ -190,6 +248,28 @@ Chain ID: `84532`
 ### Base Mainnet
 
 Coming.
+
+---
+
+## What's Coming
+
+### Route Engine
+
+The Route Engine moves verified assets toward demand-side parties through specialized agents:
+
+- **A&R agents** scan signal for emerging talent matching a partner's discovery brief
+- **Sync-licensing agents** match assets to brand briefs and music supervision needs
+- **Partner-matching agents** route assets to specific demand-side parties
+
+Agents will be registered with on-chain identity (ERC-8004), declared capability surfaces, and bonded reputation scores.
+
+### Agent-Ready Payments
+
+x402 is an open standard for HTTP-native stablecoin payments. Every registered asset will expose an x402-compatible endpoint for transient licensing and usage payments. An autonomous agent issues an HTTP request, receives a 402 response with payment requirements, executes USDC payment, and receives the resource with a verifiable receipt.
+
+### Chain-Abstracted Settlement
+
+Cross-chain settlement via ERC-7683 intents. A participant signs an intent ("pay me," "license this catalog"). A solver network competes to fulfill across whatever combination of chains and stablecoins produces the best execution.
 
 ---
 

@@ -1,61 +1,203 @@
-## Key Terminologies
+# Key Terminologies
 
-**Asset URI** 
+## Protocol Architecture
 
-(Uniform Resource Identifier) is a specific type of URI used to uniquely identify and access digital assets or resources. In the context of blockchain and NFTs (Non-Fungible Tokens), an Asset URI often points to the location of metadata or the digital file associated with an asset. It typically includes URL, IPFS Link, Metadata File.
+**Verify Engine**
 
-**Arbitrator**
+The first of three protocol engines. Establishes origin, ownership, and clearance state for registered assets. Comprises the NFT Module, IP Module, and Asset Module.
 
-An arbitrator is a neutral third party appointed to resolve disputes between parties outside of traditional court systems. Arbitration is a form of alternative dispute resolution (ADR) where the arbitrator acts as a judge to make a binding decision based on the evidence and arguments presented by the parties involved.
+**Route Engine**
 
-**ERC 6551**
+The second protocol engine. Moves verified assets toward demand-side parties through specialized agents. Agents have on-chain identity, declared capabilities, and reputation scores. *(In development)*
 
-ERC 6551, also known as the **"Token Bound Accounts"** standard, is a proposal for a new type of Ethereum token standard. It extends the functionality of ERC-721 (a popular NFT standard) by allowing tokens to have associated accounts or wallets. This enables the token to own and manage other tokens or assets, facilitating more complex interactions and applications such as decentralized finance (DeFi) and advanced tokenization schemes.
+**Settle Engine**
 
-**KOR ERC 6551**
+The third protocol engine. Clears value across participants when transactions close. Handles programmable splits, stablecoin settlement, and royalty distribution. Comprises the License Module, Royalty Module, and Dispute Module.
 
-It is the modified version of **ERC 6551** Standard to support additional functionalities for protocol. For example (support of attaching License)
+**Clearinghouse**
 
-**ERC 721**
+A system that coordinates verification, routing, and settlement for creative assets. KOR Protocol functions as an onchain clearinghouse.
 
-ERC 721 is a widely recognized Ethereum token standard for creating **non-fungible tokens (NFTs)**. Unlike ERC-20 tokens, which are fungible and can be exchanged on a one-to-one basis, ERC-721 tokens are unique and distinguishable from one another. Each ERC-721 token has distinct attributes and is used to represent ownership of a specific asset or item, such as digital art, collectibles, or virtual real estate, with each token having its own unique identifier.
+---
 
-**IPFS (InterPlanetary File System)**
+## Core Primitives
 
-A decentralized file storage system that uses a peer-to-peer network to store and share data in a distributed manner. IPFS aims to make the web more resilient and efficient by allowing users to retrieve files based on their content rather than their location.
+**Attestation Graph**
+
+The data structure that holds signed claims about a registered asset. The graph is queried by downstream contracts to determine clearance state. Contains sample clearance claims, authorship claims, AI provenance claims, and commercial-state claims.
+
+**Clearance State**
+
+A derived property of the attestation graph indicating whether an asset is clear to move for a given action. Different actions (transient license, sample license, full transfer) require different conditions to be satisfied.
+
+**Clearing Function**
+
+A protocol action that verifies, routes, or settles value. The three engines together implement the protocol's clearing functions.
+
+**Commercial State**
+
+The set of attestations describing licenses, deals, splits, and royalty obligations against an asset. Lives in the attestation graph, not on the token itself.
+
+**Programmable Split**
+
+A contract-encoded distribution of revenue across the parties to an asset. Declared at registration and updated by attestation as commercial relationships evolve.
+
+**Royalty Memory**
+
+The historical record of settlements against an asset. Every license, brand deal, sync, and micropayment is queryable with timestamps and counterparties.
+
+---
+
+## Standards
+
+**ERC-721**
+
+A widely recognized Ethereum token standard for creating non-fungible tokens (NFTs). Used by KOR for asset registration—each registered asset has a canonical on-chain identifier as an ERC-721 token.
+
+**ERC-6551 (Token-Bound Accounts)**
+
+A standard that allows NFTs to have associated accounts or wallets. Every IP Asset registered on KOR gets its own smart contract wallet that can hold assets, receive payments, and execute transactions.
+
+**KOR ERC-6551**
+
+A modified version of ERC-6551 that supports additional functionalities for the protocol, such as attaching licenses.
+
+**ERC-8004**
+
+A standard for AI agent identity, reputation, and validation. Defines three on-chain registries. KOR's Route Engine uses ERC-8004 for agent registration. *(Coming)*
+
+**x402**
+
+An open standard for HTTP-native stablecoin payments. Assets expose x402-compatible endpoints for transient licensing and usage payments. *(Coming)*
+
+**ERC-7683**
+
+A cross-chain intents standard for chain-abstracted settlement. Allows participants to sign intents that solver networks fulfill across multiple chains. *(Coming)*
+
+**EAS (Ethereum Attestation Service)**
+
+A style of attestation used for the protocol's claim graph. Attestations are signed claims backed by various trust mechanisms.
+
+**C2PA**
+
+A standard for AI provenance signatures. Where a creating model has signed output in C2PA-compatible format, the model's signature serves as the attestation.
+
+---
+
+## Assets and Identity
+
+**IP Asset**
+
+A registered creative work with a canonical on-chain identifier, off-chain content pointer, and signed metadata. The registration is the index into protocol state.
 
 **IP Account**
 
-A digital account associated with intellectual property, typically used to manage and track the ownership and usage of IP assets. This can include accounts with IP management systems or platforms where IP rights are registered and monitored.
+A digital account associated with intellectual property, used to manage and track ownership and usage of IP assets. Created via ERC-6551 when an asset is registered.
 
 **Collection IP Account**
 
-A digital account associated with intellectual property Collection, typically used to mint new IPs with the predefined Licensing terms attached to it. also manage and track the ownership and usage of IP assets. This can include accounts with IP management systems or platforms where IP rights are registered and monitored.
+A digital account associated with an intellectual property collection, used to mint new IPs with predefined licensing terms attached.
 
-**ISCC (International Standard Content Code)**
+**Asset URI**
 
-A standard for uniquely identifying and managing digital content across different platforms and systems. The ISCC helps in tracking and verifying digital assets, ensuring that content can be consistently and accurately referenced.
+A Uniform Resource Identifier used to uniquely identify and access digital assets. Typically points to metadata or the digital file on IPFS or Arweave.
 
-**Intellectual Property (IP)**
+**KOR ID**
 
-Refers to creations of the mind for which exclusive rights are recognized by law. These creations can include inventions, literary and artistic works, designs, symbols, names, and images used in commerce. IP laws protect the rights of creators and owners by granting them control over the use of their creations.
+The identity layer of the protocol. Authenticates users via SIWE (Sign-In with Ethereum) and issues permanent identifiers. Also functions as an OAuth 2.0 / OpenID Connect provider. *(Coming)*
 
-**KOR Protocol**
+---
 
-The KOR Protocol is a blockchain-based protocol designed to facilitate secure and decentralized digital transactions, including those involving non-fungible tokens (NFTs) and other digital assets. It often aims to enhance interoperability between different blockchain networks and provide solutions for scalability and efficiency in decentralized finance (DeFi) applications. The specifics of the KOR Protocol may vary depending on its latest developments and applications within the blockchain ecosystem.
+## Agents and Routing
 
-**KORUS Platform**
+**Route Agent**
 
-The KORUS Platform is a comprehensive digital ecosystem that integrates various blockchain technologies and services to create a unified environment for managing and interacting with digital assets. It typically includes features for asset creation, transaction management, and interoperability with other blockchain systems. The platform aims to streamline processes and enhance user experiences within the digital and decentralized space.
+A specialized agent registered with on-chain identity that moves assets toward demand-side parties. Types include A&R agents, sync-licensing agents, and partner-matching agents. *(Coming)*
 
-**Metadata**
+**Agent Registry**
 
-Information that provides details about other data. In the context of digital assets, metadata includes information such as the title, author, date created, and other attributes that describe and help manage the digital content.
+The on-chain registry where Route agents are registered with declared capability surfaces and bonded reputation scores. Built on ERC-8004. *(Coming)*
+
+**Match Engine**
+
+The system that produces ranked matches between registered assets and demand-side parties. Combines latent-space embeddings, learned ranking on historical outcomes, and reputation weighting. *(Coming)*
+
+**Curation Rails**
+
+A mechanism where humans and agents bond tokens behind explicit calls about talent, matches, or briefs. Successful calls earn from clearing fees. *(Coming)*
+
+---
+
+## Settlement
+
+**Staked Attestation**
+
+A claim against an asset's attestation graph backed by bonded tokens, subject to slashing if proven false.
+
+**Stablecoin Settlement**
+
+All protocol settlement is stablecoin-denominated, primarily in USDC. Provides practical rails for transactions that are too small, global, fast, or programmable for traditional banking.
 
 **Mint Fees**
 
-Charges associated with the process of creating or issuing NFTs or other digital tokens on a blockchain. Minting refers to the act of publishing a new token to the blockchain, and mint fees cover the costs of this process, including transaction fees and network charges.
+Charges associated with creating or issuing NFTs or other digital tokens on a blockchain. Covers transaction fees and network charges.
 
-**NFT (Non-Fungible Token)**
+---
 
-A type of digital asset that represents ownership or proof of authenticity of a unique item or piece of content using blockchain technology. Unlike cryptocurrencies such as Bitcoin or Ethereum, which are fungible and can be exchanged on a one-to-one basis, NFTs are unique and cannot be exchanged on a like-for-like basis.
+## Storage and Metadata
+
+**IPFS (InterPlanetary File System)**
+
+A decentralized file storage system using a peer-to-peer network. KOR uses IPFS for off-chain content pointers.
+
+**Arweave**
+
+A permanent decentralized storage network. Alternative to IPFS for off-chain content storage.
+
+**Metadata**
+
+Information that provides details about other data. For digital assets, includes title, author, date created, format, creation context, and AI-provenance status.
+
+**ISCC (International Standard Content Code)**
+
+A standard for uniquely identifying and managing digital content across different platforms and systems.
+
+---
+
+## Ecosystem
+
+**KOR Protocol**
+
+An onchain clearinghouse for creative assets. Coordinates three functions: verifying origin and ownership, routing to demand-side parties, and settling value across participants.
+
+**Korus**
+
+A music remixing and creation tool. Output flows into the Verify Engine through asset registration with authorship and AI-provenance attestations.
+
+**VRSNS**
+
+Viral video generation for creators. Short-form video output is registered into the protocol with provenance metadata.
+
+**Pacer**
+
+An AI operating system for music. The interface where artists interact with the protocol's routing and distribution capabilities.
+
+**Streamline**
+
+An AI operating system for creators. Extends the Pacer pattern across video, visual art, and multi-format workflows.
+
+**Hubs**
+
+Community engagement and monetization. Where partners, audiences, and creators connect. Settlement venue for subscriptions, fan tokens, and gated experiences.
+
+---
+
+## Disputes
+
+**Arbitrator**
+
+A neutral third party appointed to resolve disputes between parties. Used for high-value disputes that require human arbitration beyond bonded resolution.
+
+**Dispute Resolution**
+
+The process of resolving contested claims. The protocol uses bonded counter-claim mechanisms where parties stake tokens behind their positions.
