@@ -9,15 +9,15 @@ The protocol implements three engines—Verify, Route, Settle—through a layere
 Every operation flows through the same cycle:
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│   VERIFY ──────────► ROUTE ──────────► SETTLE                       │
-│   (register asset)   (match to demand)  (clear value)               │
-│                                                                     │
-│         ◄──────────── outcome data ────────────►                    │
-│                    reputation updates                               │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+        ┌─────────────────────────────────────────────────────────┐
+        │                                                         │
+        │   VERIFY ──────────► ROUTE ──────────► SETTLE           │
+        │   (register asset)   (match to demand)  (clear value)   │
+        │                                                         │
+        │         ◄──────────── outcome data ────────────►        │
+        │                    reputation updates                   │
+        │                                                         │
+        └─────────────────────────────────────────────────────────┘
 ```
 
 **Registration.** A creator registers an asset. The registration creates a canonical on-chain identifier, an attestation graph seeded with the initial ownership claim, and a clearance state derived from the graph.

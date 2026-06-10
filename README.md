@@ -4,7 +4,7 @@
 
 KOR Protocol is an onchain clearinghouse for creative assets. The protocol coordinates three functions across the lifecycle of a creative work: **verifying** origin and ownership, **routing** the work to demand-side parties, and **settling** value across the participants.
 
-Built on Base. Stablecoin-native. Designed for a world where AI agents need to license content and can't exactly open a Chase account.
+Built on Base. Stablecoin-native. Designed for a world where AI agents need to license content at machine speed.
 
 ---
 
@@ -27,15 +27,15 @@ The creative economy runs on rails built for a different era. KOR Protocol is th
 The protocol is organized into three engines:
 
 ```
-┌───────────────────────────────────┐
-│                                   │
-▼                                   │
-VERIFY ───► ROUTE ───► SETTLE       │
-(what is real) (where it moves) (value clears)
-│                                   ▲
-│                                   │
-└───────── outcome data ────────────┘
-           reputation updates
+                ┌───────────────────────────────────┐
+                │                                   │
+                ▼                                   │
+        VERIFY ───► ROUTE ───► SETTLE               │
+    (what is real) (where it moves) (value clears)  │
+                │                                   ▲
+                │                                   │
+                └───────── outcome data ────────────┘
+                           reputation updates
 ```
 
 ### Verify
@@ -104,7 +104,7 @@ When IP generates money, it splits automatically. No invoices. No net-60. The ru
 
 ## Who Uses This
 
-**Creators** who want provable authenticity and instant payment when their work gets used.
+**Creators** who want provable authenticity, discoverability through intelligent routing, and instant payment when their work gets used.
 
 **Labels and publishers** managing catalogs with complex rights structures who are tired of quarterly reconciliation nightmares.
 
