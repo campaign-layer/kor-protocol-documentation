@@ -116,6 +116,8 @@ Four modules—IP, License, Royalty, and Dispute—are coordinated by the Orches
 
 ### The Loop
 
+![The Loop - KOR Protocol Flow](../image/the-loop-diagram.jpg)
+
 1. **Registration** — A creator registers an asset. Creates a canonical on-chain identifier, an attestation graph seeded with the initial ownership claim, and a clearance state derived from the graph.
 
 2. **Routing** — Once an asset is registered and clear-to-move, Route agents ingest signal about the asset, query the attestation graph, and route toward partners. *(In development)*
