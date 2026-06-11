@@ -6,7 +6,7 @@ KOR Protocol is an onchain clearinghouse for creative assets. The protocol coord
 
 Built on Base. Stablecoin-native. Designed for a world where AI agents need to license content at machine speed.
 
----
+***
 
 ## Why This Exists
 
@@ -20,7 +20,7 @@ There's no trusted record of origin. Ownership lives in PDFs and email threads. 
 
 The creative economy runs on rails built for a different era. KOR Protocol is the upgrade.
 
----
+***
 
 ## Three Engines
 
@@ -30,8 +30,8 @@ The protocol is organized into three engines:
                 ┌───────────────────────────────────┐
                 │                                   │
                 ▼                                   │
-        VERIFY ───► ROUTE ───► SETTLE               │
-    (what is real) (where it moves) (value clears)  │
+                |   VERIFY ───► ROUTE ───► SETTLE   │
+           (what is real) (where it moves) (value clears)  
                 │                                   ▲
                 │                                   │
                 └───────── outcome data ────────────┘
@@ -40,7 +40,7 @@ The protocol is organized into three engines:
 
 ### Verify
 
-*What is real, who owns it, and is it clear to move?*
+_What is real, who owns it, and is it clear to move?_
 
 The Verify Engine establishes origin, ownership, and clearance state for registered assets. Before anything can be distributed, licensed, remixed, or monetized, someone needs to know where it came from.
 
@@ -50,7 +50,7 @@ This is the clearing function that makes assets legible enough to route downstre
 
 ### Route
 
-*Where does it move?*
+_Where does it move?_
 
 The Route Engine moves verified assets toward demand-side parties through specialized agents. Agents have on-chain identity, declared capabilities, and reputation scores. Routing produces actions: pitches, workflows, deal-flow handoffs.
 
@@ -58,7 +58,7 @@ Route is in development. The current release focuses on Verify and Settle.
 
 ### Settle
 
-*Clear value back to source.*
+_Clear value back to source._
 
 The Settle Engine clears value across participants when transactions close. Splits are programmatic, denominated in stablecoin, executed atomically.
 
@@ -66,41 +66,37 @@ Each settlement writes back to the protocol. The asset accumulates a royalty his
 
 Crypto rails aren't ideological here. They're practical. The AI era creates transactions that are too small, too global, too fast, and too programmable for SWIFT wires and 60-day net invoices. Stablecoins fix that.
 
----
+***
 
 ## Why Base?
 
 Base is Coinbase's L2. We picked it for straightforward reasons:
 
-- **Fast**: sub-second finality
-- **Cheap**: fractions of a cent per transaction
-- **Secure**: inherits Ethereum's security
-- **Connected**: 100M+ Coinbase users, native USDC
-- **Standards**: x402, ERC-8004, and account abstraction have their deepest deployments here
+* **Fast**: sub-second finality
+* **Cheap**: fractions of a cent per transaction
+* **Secure**: inherits Ethereum's security
+* **Connected**: 100M+ Coinbase users, native USDC
+* **Standards**: x402, ERC-8004, and account abstraction have their deepest deployments here
 
 When an AI agent needs to pay a creator in Jakarta and another in LA, they settle on the same rail. No FX. No correspondent banks. No waiting.
 
 KOR is not a chain. The protocol does not run a sequencer or validator infrastructure. We pick the chain that already has the users, the liquidity, and the standards.
 
----
+***
 
 ## Core Primitives
 
 Four building blocks power the Verify and Settle engines today:
 
-**IP Assets**
-Register any creative work onchain. Music, video, images, code. Origin and ownership become verifiable. Each registration creates an on-chain identifier and seeds an attestation graph with the initial ownership claim.
+**IP Assets** Register any creative work onchain. Music, video, images, code. Origin and ownership become verifiable. Each registration creates an on-chain identifier and seeds an attestation graph with the initial ownership claim.
 
-**Token-Bound Accounts**
-Every IP Asset gets its own wallet (ERC-6551). The IP itself can hold assets, receive payments, execute transactions. Not the creator's wallet—the IP's wallet. This matters for programmable royalties and autonomous licensing.
+**Token-Bound Accounts** Every IP Asset gets its own wallet (ERC-6551). The IP itself can hold assets, receive payments, execute transactions. Not the creator's wallet—the IP's wallet. This matters for programmable royalties and autonomous licensing.
 
-**Licensing**
-Attach terms directly to IP. Who can use it, under what conditions, at what price. Enforced by code, not lawyers chasing invoices.
+**Licensing** Attach terms directly to IP. Who can use it, under what conditions, at what price. Enforced by code, not lawyers chasing invoices.
 
-**Royalty Distribution**
-When IP generates money, it splits automatically. No invoices. No net-60. The rules are set upfront and the contracts execute them. Splits are declared at registration and updated by attestation as commercial relationships evolve.
+**Royalty Distribution** When IP generates money, it splits automatically. No invoices. No net-60. The rules are set upfront and the contracts execute them. Splits are declared at registration and updated by attestation as commercial relationships evolve.
 
----
+***
 
 ## Who Uses This
 
@@ -114,7 +110,7 @@ When IP generates money, it splits automatically. No invoices. No net-60. The ru
 
 **AI agents** that need to transact at machine speed without asking permission.
 
----
+***
 
 ## Ecosystem
 
@@ -134,7 +130,7 @@ The following surfaces operate on the protocol today, built and operated by the 
 
 The protocol layer is open. You can register assets, integrate licensing, and settle through the same contracts these surfaces use.
 
----
+***
 
 ## What's Next
 
@@ -142,18 +138,18 @@ The current release focuses on the Verify and Settle engines. The Route Engine�
 
 Standards we're building toward:
 
-| Standard | Function | Status |
-|----------|----------|--------|
-| ERC-721 | Asset identifier | Live |
-| ERC-6551 | Token-bound accounts | Live |
-| ERC-8004 | Agent identity, reputation | Coming |
-| x402 | HTTP-native stablecoin payments | Coming |
-| ERC-7683 | Cross-chain intents | Coming |
+| Standard | Function                        | Status |
+| -------- | ------------------------------- | ------ |
+| ERC-721  | Asset identifier                | Live   |
+| ERC-6551 | Token-bound accounts            | Live   |
+| ERC-8004 | Agent identity, reputation      | Coming |
+| x402     | HTTP-native stablecoin payments | Coming |
+| ERC-7683 | Cross-chain intents             | Coming |
 
----
+***
 
 ## Next
 
-- [How KOR Protocol Works](Introduction/how-kor-protocol-works.md) — the technical architecture
-- [Developer Onboarding](Introduction/developer-onboarding.md) — get running in 5 minutes
-- [SDK Reference](Sdk-Reference/introduction.md) — full API docs
+* [How KOR Protocol Works](Introduction/how-kor-protocol-works.md) — the technical architecture
+* [Developer Onboarding](Introduction/developer-onboarding.md) — get running in 5 minutes
+* [SDK Reference](Sdk-Reference/introduction.md) — full API docs
